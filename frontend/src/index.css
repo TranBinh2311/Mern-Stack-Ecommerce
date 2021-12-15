@@ -1,0 +1,89 @@
+body{
+    background: linear-gradient(110deg, #0f1829, #050812);
+}
+main {
+  min-height: 84vh ;
+}
+h3 {
+  padding: 1rem;
+}
+.rating span{
+  margin: 0.1rem;
+}
+
+a{
+  text-decoration: none;
+}
+
+.product-reviews{
+  font-size: 14px;
+}
+.container{
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  
+}
+::-webkit-scrollbar{
+  display: none;
+}
+video{
+  position:absolute;
+  top: 0px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  z-index: -10;
+}
+.header-text{
+  color: white;
+}
+.header-text:hover{
+  color: turquoise;
+}
+
+footer{
+  width: 100%;
+  text-align: center;
+  color:  white;
+  z-index: 100;
+}
+
+footer h2{
+  padding: 5px 0px;
+  color:  white;
+  text-transform: uppercase;
+  letter-spacing: 10px;
+}
+
+footer h3{
+  color:  white;
+}
+
+footer p{
+  max-width: 600px;
+  margin: 15px auto;
+  line-height: 1.4;
+  letter-spacing: 2px;
+}
+footer a{
+  font-size: 20px;
+  padding-bottom: 10px;
+}
+a{
+  color:  white;
+}
+a:hover{
+  color: turquoise;
+}
+.icon-row{
+  display: inline-block;
+  letter-spacing: 20px;
+}
+
+h1{
+  font-size: 1.4rem;
+  padding: 0.1rem;
+}
