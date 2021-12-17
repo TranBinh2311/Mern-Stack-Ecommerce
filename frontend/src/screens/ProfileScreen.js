@@ -1,33 +1,49 @@
 import React , {useState, useEffect}from 'react'
-import {Link, useLocation, useNavigate} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 import {Form, Button, Col, Row} from 'react-bootstrap'
 import {useDispatch, useSelector} from 'react-redux'
 import Message from '../components/Message'
 import  Loader from '../components/Loader'
-import {register} from '../action/userAction'
-import FormContainer from '../components/FormContainer'
+import {getUserDetails, updateUserProfile} from '../action/userAction'
+import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstant' 
 
 
-const RegisterScreen = () => {
+const ProfileScreen = () => {
 
-    const location = useLocation()
+    //const location = useLocation()
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [message, setMessage] = useState('');
-
+    const [message, setMessage] = useState(null);
     const navigate = useNavigate();
-    const dispatch = useDispatch()
-    const userRegister = useSelector(state => state.userRegister);
-    const {loading, error, userInfo} = userRegister;
-    const redirect = location.search ?  location.search.split('=')[1] : '/';
+
+    const dispatch = useDispatch();
+
+    const userDetails = useSelector(  (state) => state.userDetails);
+    const {loading, error, user} = userDetails;
+
+    const userLogin = useSelector(  (state) => state.userLogin);
+    const {userInfo} = userLogin;
+
+    const userUpdateProfile = useSelector( (state) => state.userUpdateProfile);
+    const {success} = userUpdateProfile;
 
     useEffect(()=>{
-        if(userInfo){
-            navigate(redirect)
+        if(!userInfo){
+            navigate('/login')
         }
-    },[navigate, userInfo, redirect])
+        else{
+            if(!user || !user.name || success){
+                dispatch({type: USER_UPDATE_PROFILE_RESET})
+                dispatch(getUserDetails('profile'));
+            }
+            else{     
+                setName(user.name);
+                setEmail(user.email);
+            }
+        }
+    },[navigate, userInfo, dispatch, user, success])
 
     const submitHandler = (e) =>{
         e.preventDefault();
@@ -36,18 +52,22 @@ const RegisterScreen = () => {
             setMessage('Password is not match')
         }
         else{
-            dispatch(register(name,email, password))
+            setMessage(null)
+            dispatch(updateUserProfile({id: user._id, name, email, password}))
+            
         }
         
     }
     return (
-        <FormContainer>
-            <h1> Sign Up</h1>
+        <Row>
+            <Col md={3}>
+            <h1> User Profile</h1>
+         
             {message && <Message variant='danger'>{message}</Message>}
-            {error && <Message variant='danger'>{error}</Message>}
+            {error && <Message variant='danger'>{error}</Message> } 
+            {success && <Message variant='success'>Successfully!!</Message> } 
             {loading && <Loader/>}
             <Form onSubmit={submitHandler}>
-
                   <Form.Group controlId='name'>
                     <Form.Label>Name</Form.Label>
                     <Form.Control
@@ -95,19 +115,14 @@ const RegisterScreen = () => {
                 <Button 
                 style={{ marginTop: '10px'}}
                 type = 'submit' 
-                variant='primary'>Register</Button>
+                variant='primary'>Update</Button>
             </Form>
-
-            <Row className='py-3'>
-                <Col>
-                Have an Account? {' '}
-                <Link to= {redirect ? `/login?redirect=${redirect}` : '/login' } >
-                   Login
-                </Link>
-                </Col>
-            </Row>
-        </FormContainer>
+            </Col>
+            <Col md={9}>
+                <h2>My Oders</h2>
+            </Col>
+        </Row>
     )
 }
 
-export default RegisterScreen 
+export default ProfileScreen

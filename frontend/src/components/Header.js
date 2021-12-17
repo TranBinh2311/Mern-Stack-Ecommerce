@@ -19,7 +19,7 @@ const Header = () => {
                          <Navbar.Brand ><span className='header-text'>X-Shop </span></Navbar.Brand>
                     </LinkContainer>
                     
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" style = {{background: '#fff'}} />
                     <Navbar.Collapse id="basic-navbar-nav">
 
                     <Nav className="ms-auto">
