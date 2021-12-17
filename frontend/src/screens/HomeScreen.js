@@ -19,7 +19,7 @@ const HomeScreen = () => {
 
     return (
         <>
-            <h1> Lastest Products</h1>
+            <h1 className='btn-dark'> Lastest Products</h1>
             { loading 
             ? (<Loader/>)
             : error 
