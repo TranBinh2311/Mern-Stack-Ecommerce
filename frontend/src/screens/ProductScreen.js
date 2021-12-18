@@ -1,25 +1,34 @@
+// import products from '../products'
 import React, {useEffect, useState} from 'react'
 import {Link} from 'react-router-dom'
 import {Row, Col, Image, ListGroup, Card, Button, Form} from 'react-bootstrap'
 import Rating from '../components/Rating'
-// import products from '../products'
 import {useDispatch, useSelector} from 'react-redux'
 import {useParams, useNavigate } from 'react-router-dom'
-import {listProductDetails } from '../action/productAction'
+import {listProductDetails, createProductReview } from '../action/productAction'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
+import {PRODUCT_CREATE_REVIEW_RESET} from '../constants/productConstant'
 
 // import { productproductReducer } from '../reducers/productReducers'
 
 const ProductScreen = () => {
 
-    const [qty, setQty] = useState(0)
+    const [qty, setQty] = useState(1)
+    const [rating, setRating] = useState(0)
+    const [comment, setComment] = useState('')
 
     const {id} = useParams();
     const navigate = useNavigate();
 
     const productDetails = useSelector(state => state.productDetails )
     const {loading, error, product} = productDetails ;
+
+    const userLogin = useSelector(state => state.userLogin )
+    const {userInfo} = userLogin ;
+
+    const productReviewCreate = useSelector(state => state.productReview )
+    const {error: errorProductReview, success: successProductReview} = productReviewCreate ;
 
     const dispatch = useDispatch();
     useEffect(()=>{
@@ -47,6 +56,7 @@ const ProductScreen = () => {
                ? (<Message variant={'danger'}></Message>)
                :
                (
+                <>
                     <Row>
                         <Col md = {6}>
                             <Image src = {product.image} alt={product.name} fluid/>
@@ -127,11 +137,29 @@ const ProductScreen = () => {
                             </Card>
                         </Col>
                     </Row>
-               )
-           }
-                    
-           
-       
+                    <Row>
+                        <Col md = {6}>
+                            <h2>Reviews</h2>
+                            {product.reviews.length === 0 && <Message>No Reviews</Message>}
+                            <ListGroup variant='flush'>
+                                {
+                                    product.reviews.map(review =>(
+                                        <ListGroup.Item key = {review._id}>
+                                            <strong>{review.name}</strong>
+                                            <Rating value={review.rating}/>
+                                            <p>{review.createAt.substring(0,10)}</p>
+                                            <p>{review.comment}</p>
+                                        </ListGroup.Item>
+                                    ))
+                                }
+                                <ListGroup.Item>
+                                    <h2>Write some review comments</h2>      
+                                </ListGroup.Item>
+                            </ListGroup>
+                        </Col>
+                    </Row>
+                </>
+               )}
         </>
     )
 }

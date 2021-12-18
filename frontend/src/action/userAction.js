@@ -13,7 +13,6 @@ import {
     USER_UPDATE_PROFILE_SUCCESS,
     USER_UPDATE_PROFILE_REQUEST,
     USER_UPDATE_PROFILE_FAIL,
-    CART_SAVE_PAYMENT_METHOD 
  
  } from '../constants/userConstant'
 
@@ -144,6 +143,7 @@ export const  updateUserProfile = (user) => async (dispatch, getState)=>{
         })
     }
 }
+
 export const logout = () => (dispatch) =>{
     localStorage.removeItem('userInfo');
     dispatch({type: USER_LOGOUT})

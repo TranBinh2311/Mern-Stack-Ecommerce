@@ -5,6 +5,7 @@ import dotenv from 'dotenv'
 import colors from 'colors'
 import productRouter from './route/productRoute.js'
 import userRouter from './route/userRoute.js'
+import orderRouter from './route/orderRoute.js'
 import {notFound, errorHandler} from './middleware/errorMiddleware.js'
 import * as path from 'path';
 
@@ -16,6 +17,7 @@ app.use(express.json())
 
 app.use('/api/products', productRouter);
 app.use('/api/users',userRouter);
+app.use('/api/orders',orderRouter);
 
 const __dirname = path.resolve();
 

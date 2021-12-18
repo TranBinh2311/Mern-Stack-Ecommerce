@@ -14,7 +14,6 @@ import {
    USER_UPDATE_PROFILE_REQUEST,
    USER_UPDATE_PROFILE_FAIL,
    USER_UPDATE_PROFILE_RESET,
-   CART_SAVE_PAYMENT_METHOD 
 
 } from '../constants/userConstant'
 
