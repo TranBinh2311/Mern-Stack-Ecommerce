@@ -47,7 +47,9 @@ video{
 .header-text:hover{
   color: turquoise;
 }
-
+a{
+  text-decoration: none;
+}
 footer{
   width: 100%;
   text-align: center;
