@@ -10,6 +10,9 @@ import About from './screens/About';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import ShippingScreen from './screens/ShippingScreen';
+import PaymentScreen from './screens/PaymentScreen';
+import PlaceorderScreen from './screens/PlaceorderScreen';
 const  App= () => {
   return (
     <Router>
@@ -25,6 +28,9 @@ const  App= () => {
                   <Route path= '/cart' element = {<CartScreen/>} />
                   <Route path= '/profile' element = {<ProfileScreen/>} />
                   <Route path= '/about' element = {<About/>} />
+                  <Route path= '/shipping' element = {<ShippingScreen/>} />
+                  <Route path= '/payment' element = {<PaymentScreen/>} />
+                  <Route path= '/placeorder' element = {<PlaceorderScreen/>} />
                 </Routes>
               </Container>
               {/* <div className='container'>

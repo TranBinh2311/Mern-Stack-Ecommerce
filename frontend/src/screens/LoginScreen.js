@@ -20,11 +20,11 @@ const LoginScreen = () => {
     const {loading, error, userInfo} = userLogin;
 
 
-    const redirect = location.search ?  location.search.split('=')[1] : '/';
+    const redirect = location.search ?  location.search.split('=')[1] : ' ';
 
     useEffect(()=>{
         if(userInfo){
-            navigate(redirect)
+           navigate(`/${redirect}`)
         }
     },[navigate, userInfo, redirect])
 

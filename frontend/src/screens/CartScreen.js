@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {useDispatch, useSelector} from 'react-redux'
 import { Row, Col, ListGroup, Image, Form, Button , Card } from 'react-bootstrap'
 import Message from '../components/Message'
@@ -14,9 +14,8 @@ const CartScreen = () => {
     const location = useLocation()
     const qty = location.search? Number(location.search.split('=')[1]) : 1;
     const cart = useSelector(state => state.cart)
-
+    const navigate = useNavigate();
     const { cartItems } = cart;
-    console.log(cartItems);
     const dispatch = useDispatch();
 
     useEffect(()=>{
@@ -31,7 +30,7 @@ const CartScreen = () => {
     }
 
     const checkoutHandle = () =>{
-        alert("SIUuuu")
+        navigate(`/login?redirect=shipping`);
     }
 
     return (
@@ -46,13 +45,13 @@ const CartScreen = () => {
                     : (
                         <ListGroup variant='flush'>
                             {cartItems.map( (item) => (
-                                <ListGroup.Item>
+                                <ListGroup.Item >
                                     <Row>
                                         <Col md ={2}>
-                                            <Image src= {item.image} alt ={item.name} fluid rounded/>
+                                            <Image src= {item.image} alt ={item.name} fluid rounded key = {item.id}/>
                                         </Col>
                                         <Col md= {3}>
-                                            <Link to={`/product/${item.product}`}>{item.name}</Link>
+                                            <Link key = {item.id} to={`/product/${item.product}`}>{item.name}</Link>
                                         </Col>
 
                                         <Col md= {2}>${item.price}</Col>
@@ -75,6 +74,7 @@ const CartScreen = () => {
 
                                         <Col md = {2}>
                                             <Button 
+                                            key = {item.id}
                                             type= 'button' 
                                             variant ='light' 
                                             onClick = {()=>removeFromCartHandler(item.product)}>

@@ -10,13 +10,14 @@ import FormContainer from '../components/FormContainer'
 
 const RegisterScreen = () => {
 
-    const location = useLocation()
+    
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [message, setMessage] = useState('');
-
+    
+    const location = useLocation();
     const navigate = useNavigate();
     const dispatch = useDispatch()
     const userRegister = useSelector(state => state.userRegister);
