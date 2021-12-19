@@ -19,14 +19,15 @@ const PlaceorderScreen = () => {
     cart.totalPrice =  Number((cart.itemsPrice  + cart.shippingPrice + cart.taxPrice).toFixed(2))
     
     const orderCreate= useSelector(state => state.orderCreate)
-    const {order, success, error} = orderCreate
+    const {order, success, error, loading} = orderCreate
 
-    useEffect(()=>{
-        if(!success){
+    useEffect(()=>{          
+        if( success===false && loading === false){
           navigate(`/order/${order._id}`)    
         }
+
         // eslint-disable-next-line
-    },[navigate, success])
+    },[navigate, success, loading])
     const placeOrderHandler = () =>{
         dispatch(createOrder({
             orderItems: cart.cartItems,

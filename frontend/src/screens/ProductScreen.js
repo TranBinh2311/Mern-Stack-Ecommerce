@@ -153,7 +153,8 @@ const ProductScreen = () => {
                                     ))
                                 }
                                 <ListGroup.Item>
-                                    <h2>Write some review comments</h2>      
+                                    <h2>Write some review comments</h2>     
+                                    {userInfo ? <h1></h1> : <Message>Please <Link to = ''></Link> </Message>} 
                                 </ListGroup.Item>
                             </ListGroup>
                         </Col>
