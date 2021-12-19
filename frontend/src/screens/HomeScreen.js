@@ -4,18 +4,21 @@ import {useDispatch, useSelector} from 'react-redux'
 import Product from '../components/Product'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import {Col, Pagination, Row} from 'react-bootstrap'
+import {Col, Row} from 'react-bootstrap'
 import {listProduct} from '../action/productAction'
 import {useParams } from 'react-router-dom'
 import Pageniate from '../components/Pageniate'
 import ProductCarousel from '../components/ProductCarousel'
+import Meta from '../components/Meta'
+import { Link } from 'react-router-dom'
+
 
 const HomeScreen = () => {
 
 
+    
+
     const {keyword, pageNumber} = useParams();
-
-
     const dispatch = useDispatch()
     const productList = useSelector( state => state.productList);
     const {loading, error, products, page, pages} = productList;
@@ -25,8 +28,9 @@ const HomeScreen = () => {
 
     return (
         <>
-        {/* {!keyword && <ProductCarousel/> } */}
-            <h1 className='btn-dark'> Lastest Products</h1>
+        <Meta />
+        {!keyword ? <ProductCarousel/> : <Link to='/' className='btn btn-light'>Go Back</Link>}
+            <h1 className='btn-dark' style={{marginTop: '15px'}}> Lastest Products</h1>
             { loading 
             ? (<Loader/>)
             : error 

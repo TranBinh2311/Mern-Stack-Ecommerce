@@ -5,10 +5,10 @@ import {Row, Col, Image, ListGroup, Card, Button, Form} from 'react-bootstrap'
 import Rating from '../components/Rating'
 import {useDispatch, useSelector} from 'react-redux'
 import {useParams, useNavigate } from 'react-router-dom'
-import {listProductDetails, createProductReview } from '../action/productAction'
+import {listProductDetails,} from '../action/productAction'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
-import {PRODUCT_CREATE_REVIEW_RESET} from '../constants/productConstant'
+import Meta from '../components/Meta'
 
 // import { productproductReducer } from '../reducers/productReducers'
 
@@ -27,8 +27,8 @@ const ProductScreen = () => {
     const userLogin = useSelector(state => state.userLogin )
     const {userInfo} = userLogin ;
 
-    const productReviewCreate = useSelector(state => state.productReview )
-    const {error: errorProductReview, success: successProductReview} = productReviewCreate ;
+    // const productReviewCreate = useSelector(state => state.productReview )
+    // const {error: errorProductReview, success: successProductReview} = productReviewCreate ;
 
     const dispatch = useDispatch();
     useEffect(()=>{
@@ -61,6 +61,7 @@ const ProductScreen = () => {
                :
                (
                 <>
+                <Meta title={product.name}/>
                     <Row>
                         <Col md = {6}>
                             <Image src = {product.image} alt={product.name} fluid/>
