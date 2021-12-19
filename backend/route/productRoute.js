@@ -6,7 +6,7 @@ import {getProducts, getProductById} from '../controllers/controllerProducts.js'
 
 router.get('/' , getProducts);
 router.get('/:id' , getProductById);
-
+// router.get('/top' , getTopProducts);
 export default router;
 
 

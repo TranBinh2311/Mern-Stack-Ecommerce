@@ -20,9 +20,11 @@ const  App= () => {
             <main className='py-3'>
               <Container>
                 <Routes>
-                  <Route path= '/search/:keyword' element = {<HomeScreen/>} />
+                  <Route path= '/search/:keyword' element = {<HomeScreen/>} exact/>
                   <Route path= "/" element = {<HomeScreen/>} exact />
-                  
+                  <Route path= "/page/:pageNumber" element = {<HomeScreen/>} exact />
+                  <Route path= "/search/:keyword/page/:pageNumber" element = {<HomeScreen/>} exact />
+
                   <Route path= "/login" element = {<LoginScreen/>} exact /> 
                   <Route path= "/register" element = {<RegisterScreen/>} exact /> 
                   <Route path= "/product/:id" element = {<ProductScreen/>}/>

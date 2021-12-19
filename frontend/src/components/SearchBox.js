@@ -14,7 +14,7 @@ const SearchBox = () => {
          }
     }
     return (
-        <Form onSubmit={submitHandler} style={{maxWidth: '800px'}} >
+        <Form onSubmit={submitHandler} style={{maxWidth: '800px'}}>
             <Row>
                 <Col>
                     <Form.Control
