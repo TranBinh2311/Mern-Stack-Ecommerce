@@ -40,6 +40,10 @@ const ProductScreen = () => {
         //  console.log( createBrowserHistory );
         navigate(`/cart/${id}?qty=${qty}`);
      }
+
+     const  submitHandler =()=>{
+         alert("Reviews")
+     }
      
     // const product = products.find( (product, index) =>{
     //     return product._id === id;
@@ -154,7 +158,41 @@ const ProductScreen = () => {
                                 }
                                 <ListGroup.Item>
                                     <h2>Write some review comments</h2>     
-                                    {userInfo ? <h1></h1> : <Message>Please <Link to = ''></Link> </Message>} 
+                                    {userInfo
+                                     ? (
+                                     <Form onSubmit={submitHandler}>
+                                         <Form.Group controlId= 'rating'>
+                                            <Form.Label>Rating</Form.Label>
+                                            <Form.Control style={{border: '1px solid #181818',  outline: "none"}} 
+                                            as =  'select' 
+                                            value ={rating} 
+                                            onChange = {(e) => setRating(e.target.value)}>
+                                                <option value=''>Select....</option>
+                                                <option value='1'>1 - Poor</option>
+                                                <option value='2'>2- Fair</option>
+                                                <option value='3'>3- Good</option>
+                                                <option value='4'>4 - Very Good</option>
+                                                <option value='5'>5 - Excellent</option>
+                                            </Form.Control>
+                                         </Form.Group>
+                                         <Form.Group controlId= 'commnt'>
+                                            <Form.Label>Comment</Form.Label>
+                                            <Form.Control 
+                                            style={{border: '1px solid #181818',  outline: "none"}}
+                                            as =  'textarea' 
+                                             row = '3' 
+                                             value ={comment} 
+                                             onChange = {(e) => setComment(e.target.value)}>
+                                            </Form.Control>
+                                         </Form.Group>
+                                         <Button 
+                                         style={{marginTop: "15px", outline: "none"}}
+                                         type = 'submit' 
+                                         variant='primary'>Submit</Button>
+                                     </Form>
+                                     ):( 
+                                     <Message>Please <Link to = '/login'>Login?</Link> </Message>
+                                     )} 
                                 </ListGroup.Item>
                             </ListGroup>
                         </Col>
