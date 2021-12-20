@@ -76,8 +76,8 @@ const registerUser = asyncHandler(async (req, res) =>{
    
 })
 
-// @desc   register 
-// @route  POST /api/users
+// @desc   update account 
+// @route  PUT /api/users
 // @access Public
 const updateUser = asyncHandler(async (req, res) =>{
     const user = await User.findById(req.user._id);
@@ -102,9 +102,75 @@ const updateUser = asyncHandler(async (req, res) =>{
     }   
 })
 
+// @desc   get all users 
+// @route  GET /api/users
+// @access Private/Admin
+const getUsers = asyncHandler( async (req, res)=>{
+    const users =  await User.find({});
+    res.json(users);
+})
+
+// @desc   delete user by id
+// @route  DELETE /api/users/:id
+// @access Private/Admin
+const deletUserById = asyncHandler( async (req, res)=>{
+    const user =  await User.findById(req.params.id);
+    if(user){
+        await user.remove();
+        res.json({message: 'User moved'})
+    }
+    else{
+        res.status(404);
+        throw new Error(`User not found`);
+    }
+})
+
+// @desc   get user by id
+// @route  GET /api/users/:id
+// @access Private/Admin
+const getUserById = asyncHandler( async (req, res)=>{
+    const user =  await User.findById(req.params.id).select('-password');
+    if(user){
+        res.json(user)
+    }
+    else{
+        res.status(404);
+        throw new Error(`User not found`);
+    }
+})
+
+
+// @desc   register 
+// @route  PUT /api/users
+// @access Private
+const updateUserById = asyncHandler(async (req, res) =>{
+    const user = await User.findById(req.params.id);
+
+    if(user){
+        user.name= req.body.name || user.name;
+        user.email= req.body.email || user.email;
+        user.isAdmin = req.body.isAdmin;
+ 
+        const updateUser = await user.save();
+
+        res.json({
+            _id: updateUser._id,
+            name: updateUser.name,
+            email: updateUser.email,
+            isAdmin: updateUser.isAdmin,
+        })
+    }
+    else{
+        res.status(404).json('User not found')
+    }   
+})
 export  {
     authUser,
     getUserProfile,
     registerUser,
-    updateUser
+    updateUser,
+    getUsers,
+    deletUserById,
+    getUserById,
+    updateUserById
 }
