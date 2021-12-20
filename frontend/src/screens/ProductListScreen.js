@@ -4,38 +4,50 @@ import {Table, Button, Row, Col} from 'react-bootstrap'
 import {useDispatch, useSelector} from 'react-redux'
 import Message from '../components/Message'
 import  Loader from '../components/Loader'
-import  {listProduct} from '../action/productAction'
+import  {listProduct, deleteProduct, createProduct} from '../action/productAction'
 import { LinkContainer } from 'react-router-bootstrap'
 import { useNavigate } from 'react-router-dom'
-import { useParams } from 'react-router-dom'
+import { PRODUCT_CREATE_RESET } from '../constants/productConstant'
+
+// import { useParams } from 'react-router-dom'
 
 const ProductListScreen = () => {
 
     const dispatch = useDispatch();
     const navigate= useNavigate();
-    const {id} = useParams();
+    // const {id} = useParams();
 
     const listProducts = useSelector(state => state.productList );
     const {loading , error , products} = listProducts;
+
+    const deleteProducts = useSelector(state => state.productDelete );
+    const {loading:loadingDelete , error:errorDelete , success: successDelte} =  deleteProducts;
+
+    const createProducts = useSelector(state => state.productCreate );
+    const {loading:loadingCreate , error:errorCreate , product: productCreate, success: successCreate} =  createProducts;
 
     const userLogin = useSelector(state => state.userLogin );
     const {userInfo} = userLogin;
 
     useEffect(()=>{
-        if(userInfo && userInfo.isAdmin){
-            dispatch(listProduct())
-        }
-        else{
+        dispatch({type: PRODUCT_CREATE_RESET});
+
+        if( !userInfo.isAdmin){
             navigate('/login')
         }
-       
-    }, [dispatch, navigate, userInfo]);
+        if(successCreate){
+            navigate(`/admin/product/${productCreate._id}/edit`)
+        }
+        else{
+            dispatch(listProduct())
+        }
+    }, [dispatch, navigate, userInfo, successDelte, successCreate, loadingCreate]);
      const createProductHandler = () =>{
-         alert("Create");
+        dispatch(createProduct());
      }
     const deleteHandler = (id)=>{
         if(window.confirm('Are you sure')){
-          // DELETE Products
+          dispatch(deleteProduct(id));
         }   
     }
     return (
@@ -50,6 +62,11 @@ const ProductListScreen = () => {
                 </Button>
             </Col>
         </Row>
+             {loadingDelete && <Loader/>}
+             {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
+
+             {(loadingCreate) && <Loader/>}
+             {errorCreate && <Message variant='danger'>{errorCreate}</Message>}
             { (loading !== false )? <Loader/> :  error ? <Message variant='danger'>{error}</Message>
             :
             ( 

@@ -1,11 +1,12 @@
 
 import React, {useEffect} from 'react'
 import { Link, useParams } from 'react-router-dom'
-import {Row, Col , ListGroup, Image, Card} from 'react-bootstrap'
+import {Row, Col , ListGroup, Image, Card, Button} from 'react-bootstrap'
 import {useSelector, useDispatch} from 'react-redux'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
-import { getOrderDetails } from '../action/orderAction'
+import { getOrderDetails, deliverOrder } from '../action/orderAction'
+import { ORDER_DELIVERED_RESET } from '../constants/orderConstant'
 
 const OrderScreen = () => {
     const {id} = useParams();
@@ -13,18 +14,30 @@ const OrderScreen = () => {
     const dispatch = useDispatch();
     // const navigate = useNavigate();
    
-    const orderDetails= useSelector(state => state.orderDetails)
-    const {order, error, loading} = orderDetails
+    const orderDetails= useSelector(state => state.orderDetails);
+    const {order, error, loading} = orderDetails;
+
+    const userLogin= useSelector(state => state.userLogin);
+    const {userInfo} = userLogin;
+
+    const orderDeliverys = useSelector(state => state.orderDeliver);
+    const {loading: loadingDeliver, success: successDeliver} = orderDeliverys ;
+
+    
     if(!loading){
         order.itemsPrice =  Number(order.orderItems.reduce((acc, item) => acc + item.price * item.qty,0).toFixed(2))
     }
     useEffect(()=>{     
-        if(!order || order._id !== id )     
+        if(!order || order._id !== id || successDeliver )     
         {
+            dispatch({type: ORDER_DELIVERED_RESET})
             dispatch(getOrderDetails(id))
         }
-    },[order, id, dispatch])
-    
+    },[order, id, dispatch, successDeliver])
+
+    const deliverHandler = ()=>{
+        dispatch(deliverOrder(order));
+    }
     return loading ? <Loader/> : error ? <Message variant={'danger'}>{error}</Message> 
     :(
         <>
@@ -48,7 +61,7 @@ const OrderScreen = () => {
                                 {order.shippingAddrees.country}
                             </p>
                             <p>
-                               {order.isDeliverd? <Message variant='success'>Delivered on {order.deliverdAt}</Message>
+                               {order.isDeliverd? <Message variant='success'>Delivered on {order.deliverAt}</Message>
                                : <Message variant='danger'>Not Delivered</Message> }
                             </p>
                         </ListGroup.Item>
@@ -127,7 +140,19 @@ const OrderScreen = () => {
                                     <Col>${order.totalPrice}</Col>
                                 </Row>
                             </ListGroup.Item>
-
+                            { loadingDeliver && <Loader/>}
+                            {
+                                userInfo.isAdmin && !order.isDeliverd && (
+                                    <ListGroup.Item>
+                                        <Button 
+                                        type='button' 
+                                        className='btn btn-block' 
+                                        onClick={deliverHandler}>
+                                            Mark as Delivered
+                                        </Button>
+                                    </ListGroup.Item>
+                                )
+                            }
                         </ListGroup>
                     </Card>
                 </Col>
