@@ -19,6 +19,8 @@ import UserEditScreen from './screens/UserEditScreen';
 import ProductListScreen from './screens/ProductListScreen';
 import ProductEditScreen from './screens/ProductEditScreen';
 import OrderListScreen from './screens/OrderListScreen';
+import MessengerCustomerChat from 'react-messenger-customer-chat';
+
 const  App= () => {
   return (
     <Router>
@@ -26,6 +28,10 @@ const  App= () => {
             <main className='py-3'>
               
               <Container>
+              <MessengerCustomerChat
+                  pageId="104556582086483"
+                  appId="311833814138424"
+                />
                 <Routes>
                   <Route path= '/search/:keyword' element = {<HomeScreen/>} exact/>
                   <Route path= "/" element = {<HomeScreen/>} exact />
