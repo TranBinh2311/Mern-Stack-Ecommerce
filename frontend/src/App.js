@@ -24,6 +24,7 @@ const  App= () => {
     <Router>
         <Header/>
             <main className='py-3'>
+              
               <Container>
                 <Routes>
                   <Route path= '/search/:keyword' element = {<HomeScreen/>} exact/>
