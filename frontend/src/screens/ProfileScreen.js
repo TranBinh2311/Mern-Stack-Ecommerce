@@ -35,7 +35,6 @@ const ProfileScreen = () => {
     const {loading: loadingOrder,error: errorOrders,  orders} = orderMyList;
 
     useEffect(()=>{
-        console.log(orders, loadingOrder);
         if(!userInfo){
             navigate('/login')
         }
