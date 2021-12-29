@@ -7,6 +7,7 @@ import productRouter from './route/productRoute.js'
 import userRouter from './route/userRoute.js'
 import orderRouter from './route/orderRoute.js'
 import uploadRouter from './route/uploadRoute.js'
+import morgan from 'morgan';
 import {notFound, errorHandler} from './middleware/errorMiddleware.js'
 import * as path from 'path';
 
@@ -14,6 +15,10 @@ import * as path from 'path';
 dotenv.config();
 connectDB();
 const app = express();
+if(process.env.NODE_ENV === "developement"){
+    app.use(morgan('dev'))
+}
+
 app.use(express.json())
 
 app.use('/api/products', productRouter);

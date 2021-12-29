@@ -8,17 +8,17 @@ import  {listProduct, deleteProduct, createProduct} from '../action/productActio
 import { LinkContainer } from 'react-router-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { PRODUCT_CREATE_RESET } from '../constants/productConstant'
-
-// import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
+import Pageniate from '../components/Pageniate'
 
 const ProductListScreen = () => {
-
+    const {pageNumber} = useParams(); 
     const dispatch = useDispatch();
     const navigate= useNavigate();
-    // const {id} = useParams();
+  
 
     const listProducts = useSelector(state => state.productList );
-    const {loading , error , products} = listProducts;
+    const {loading , error , products, page, pages} = listProducts;
 
     const deleteProducts = useSelector(state => state.productDelete );
     const {loading:loadingDelete , error:errorDelete , success: successDelte} =  deleteProducts;
@@ -39,9 +39,9 @@ const ProductListScreen = () => {
             navigate(`/admin/product/${productCreate._id}/edit`)
         }
         else{
-            dispatch(listProduct())
+            dispatch(listProduct('', pageNumber))
         }
-    }, [dispatch, navigate, userInfo, successDelte, successCreate, loadingCreate]);
+    }, [dispatch, navigate, userInfo, successDelte, successCreate, loadingCreate, pageNumber]);
      const createProductHandler = () =>{
         dispatch(createProduct());
      }
@@ -70,6 +70,7 @@ const ProductListScreen = () => {
             { (loading !== false )? <Loader/> :  error ? <Message variant='danger'>{error}</Message>
             :
             ( 
+            <>
                 <Table striped bordered hover responsive className='table-sm'>
                     <thead>
                         <tr>
@@ -105,6 +106,8 @@ const ProductListScreen = () => {
                         ))}
                     </tbody>
                 </Table>
+                <Pageniate pages={pages} page={page} isAdmin={true}/>
+                </>
             )}  
         </>
     )
